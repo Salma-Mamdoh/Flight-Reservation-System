@@ -4,7 +4,7 @@
     {
         static void Main(string[] args)
         {
-            Form1 form = new Form1();
+            Form2 form = new Form2();
             form.ShowDialog();
         }
     }

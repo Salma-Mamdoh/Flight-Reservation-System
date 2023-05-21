@@ -59,12 +59,45 @@ namespace Testconnection
                         userId = Convert.ToInt32(getIdCommand.ExecuteScalar());
                     }
                     MessageBox.Show("User created successfully.");
+
+                    // If the user is a customer, insert their ID into the customer table and set the payment method to cash
+                    if (comboBox1.Text == "Customer")
+                    {
+                        using (SqlCommand insertCustomerCommand = new SqlCommand("INSERT INTO Customer (Customer_ID, Payment_info) VALUES (@Customer_ID, @Payment_info)", con))
+                        {
+                            insertCustomerCommand.Parameters.AddWithValue("@Customer_ID", userId);
+                            insertCustomerCommand.Parameters.AddWithValue("@Payment_info", "Cash");
+
+                            int customerRowsAffected = insertCustomerCommand.ExecuteNonQuery();
+
+                            if (customerRowsAffected > 0)
+                            {
+                                MessageBox.Show("Customer created successfully.");
+                            }
+                        }
+                        this.Hide();
+                        Form2 form22 = new Form2();
+                        form22.ShowDialog();
+                    }
+                    else if (comboBox1.Text == "Admin")
+                    {
+                        using (SqlCommand insertCustomerCommand = new SqlCommand("INSERT INTO Admin (Admin_ID, Permissions) VALUES (@Admin_ID, @Permissions)", con))
+                        {
+                            insertCustomerCommand.Parameters.AddWithValue("@Admin_ID", userId);
+                            insertCustomerCommand.Parameters.AddWithValue("@Permissions", "Full access");
+
+                            int customerRowsAffected = insertCustomerCommand.ExecuteNonQuery();
+
+                            if (customerRowsAffected > 0)
+                            {
+                                MessageBox.Show("Admin created successfully.");
+                            }
+                        }
+                        this.Hide();
+                        Form2 form22 = new Form2();
+                        form22.ShowDialog();
+                    }
                 }
-            }
-            // Check if the user is an admin
-            if (comboBox1.Text == "Admin")
-            {
-                // got to form for admin and choose permissions there 
             }
         }
 
